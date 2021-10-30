@@ -4,7 +4,7 @@
 ## Vue d'ensemble
 
 
-PC3R Caldav est un site permettant aux étudiants de Master Informatique de consulter  leur emploi du temps, par le biais de l’API Caldav de Sorbonne université. Elle permet en outre d’annoter des cours et de lancer un pomodoro.
+ Caldav PC3R est un site permettant aux étudiants de Master Informatique de consulter  leur emploi du temps, par le biais de l’API Caldav de Sorbonne université. Elle permet en outre d’annoter des cours et de lancer un pomodoro.
 
 ## Technologies utilisés
 
@@ -32,13 +32,13 @@ Chaque cursus génère un calendrier au format icalc accessible avec des méthod
 Un appel au calendrier de l’API se fait à chaque connexion de l’utilisateur, ainsi qu’à chaque changement de cursus dans le profil (ex: passer de M1_STL à M1_BIM).
 ## Annexe 
 
-1) Tester le projet
+### Tester le projet
 Il est nécessaire de lancer catalina9 et MariaDB, et de peupler avec ces données:
 Il faut créer un utilisateur MariaDB avec comme id:
  - user1
  -  password1
  
-```
+```sql 
         DROP DATABASE IF EXISTS Caldav;
         CREATE DATABASE Caldav;
         USE Caldav;
@@ -71,7 +71,7 @@ Il faut créer un utilisateur MariaDB avec comme id:
         INSERT INTO T_pomodoro (idUser, d, duree, idCours) VALUES ('isa',
         ("2012-04-19 13:08:22") ,60, "desdsfsdfdsf");
 ```
-## Visuels
+### Visuels
 
 ![enter image description here](https://raw.githubusercontent.com/isabelleshao/Caldav-PC3R/main/imgs/02.png)
 ![enter image description here](https://raw.githubusercontent.com/isabelleshao/Caldav-PC3R/main/imgs/03.png)
