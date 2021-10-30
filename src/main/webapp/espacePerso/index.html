@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Espace Personnel</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<span class="navbar-brand">Caldav PC3R</span>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="index.html">Accueil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="calendrier.html">Calendrier</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="pomodoro.html">Pomodoro</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="profil.html">Profil</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="liens.html">Liens utiles</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=javascript:void(0); onclick=deconnexion()>Deconnexion</a>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="bienvenue"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 ">
+				<h2>Cours de la journée : </h2>
+				<div class="list-group planningAujo">
+				</div>
+
+			</div>
+			<div class="col-md-6 meteo">
+			<h2>Météo à Paris: </h2>
+			
+			
+			</div>
+		</div>
+	</div>
+	<script>
+
+
+	
+
+    function recuperation() {
+
+        let url = '../ServletNote?txtLogin=' + sessionStorage.login;
+        let headers = new Headers();
+        headers.set('Accept', 'application/json');
+        fetch(url, {
+                method: "get",
+                headers,
+                mode: "same-origin"
+            })
+            .then(function (response) {
+
+                response.json().then(function (rjson) {
+                    var t = document.querySelector(".meteo");
+                    
+                    if(rjson.length>6){
+                    	rjson = rjson.slice(rjson.length-6, rjson.length-1)
+                    }
+ 
+            		
+            		rjson.forEach(element => {
+
+        				var div1 = document.createElement("div");
+        				div1.setAttribute("class", "list-group-item list-group-item-action");
+        				var div2 = document.createElement("div");
+        				div2.setAttribute("class", "d-flex w-100 justify-content-between");
+        				div1.appendChild(div2);
+        				t.appendChild(div1);
+
+        				var small = document.createElement("small");
+        				small.textContent = element.date;
+        				div2.appendChild(small);
+
+        				var p = document.createElement("p");
+
+        				p.innerHTML = element.note;
+        				div1.appendChild(p);
+        			});
+            		
+            		
+
+                }).catch(function (error) {
+                    console.log("Authentification Parsing: " + error.message)
+                });
+            })
+            .catch(function (error) {
+                console.log("Authentification Fetching: " + error.message);
+            })
+    }
+
+	
+	
+	fetch("http://api.openweathermap.org/data/2.5/weather?q=Paris&appid=c88b20e10dd54d97466cf3bd5c44e79f&lang=fr&&units=metric")
+	.then(response => response.json())
+	.then(response => {
+		var res  =response; 
+
+		var t = document.querySelector(".meteo");
+
+		var div1 = document.createElement("div");
+		div1.textContent = "Situation: " + res.weather[0].description;
+		
+		var div2 = document.createElement("div");
+		div2.textContent = "Temperature actuelle: " + res.main.temp+"°";	
+
+		var div3 = document.createElement("div");
+		div3.textContent = "Temperature min: " + res.main.temp_min+"°";	
+		var div4 = document.createElement("div");
+		div4.textContent = "Temperature max: " + res.main.temp_max+"°";	
+		
+		var h2 = document.createElement("h2");
+		h2.textContent = "Mes dernières notes: ";	
+
+		h2.setAttribute("class", "note");
+
+		t.appendChild(div1);
+		t.appendChild(div2);
+		t.appendChild(div3);
+		t.appendChild(div4);
+		t.appendChild(h2);
+		recuperation()
+	}
+
+	)
+	
+	
+
+	.catch(error => alert("Erreur : " + error));
+	
+	
+	
+		const request = async () => {
+
+			let url = "../login?txtLogin=" + sessionStorage.login + "&txtPassword=" + sessionStorage.password;
+			let headers = new Headers();
+			headers.set('Accept', 'application/json');
+
+			const response = await fetch(url, {
+				method: "get",
+				headers,
+				mode: "same-origin"
+			});
+			const json = await response.json();
+
+			sessionStorage.setItem("cursus", json.filiere.niveau);
+			sessionStorage.setItem("matieres", json.filiere.matieres);
+			filtreJour(json.filiere.calendrier);
+		};
+
+
+		function filtreJour(calend) {
+			let today = new Date().toISOString().slice(0, 10)
+			let planningDuJour = []
+			calend.forEach(element => {
+				if (element.date.toString()==today.toString()) {
+				//if (element.date.toString() == "2021-04-01") {
+					planningDuJour.push(element);
+				}
+
+			});
+
+
+			planningDuJour.forEach(element => {
+				var t = document.querySelector(".planningAujo");
+				var div1 = document.createElement("div");
+				div1.setAttribute("class", "list-group-item list-group-item-action");
+				var div2 = document.createElement("div");
+				div2.setAttribute("class", "d-flex w-100 justify-content-between");
+				div1.appendChild(div2);
+				t.appendChild(div1);
+
+				var h5 = document.createElement("h5");
+				h5.setAttribute("class", "mb-1");
+				h5.textContent = element.name;
+				div2.appendChild(h5);
+
+				var small = document.createElement("small");
+				small.textContent = element.date;
+				div2.appendChild(small);
+
+				var p = document.createElement("p");
+				h5.setAttribute("class", "mb-1");
+				p.innerHTML = element.description;
+				div1.appendChild(p);
+			});
+		}
+
+		window.onload = chargeAccueil();
+
+		function chargeAccueil() {
+			var t = document.querySelector(".bienvenue");
+			t.innerHTML = "<h1>Bienvenue " + sessionStorage.login + "!</h1>";
+			request()
+		
+		};
+
+		function deconnexion() {
+			sessionStorage.clear();
+			document.location.href = "../";
+		}
+	</script>
+
+</body>
+
+</html>

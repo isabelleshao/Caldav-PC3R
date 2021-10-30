@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <style type="text/css">
+        :root {
+            --pomodoro: hsl(223, 25%, 40%);
+            --shortBreak: hsl(48, 23%, 40%);
+            --longBreak: hsl(105, 16%, 40%);
+            --bgc: var(--pomodoro);
+        }
+
+        body {
+            background-color: var(--bgc);
+            transition: background-color 1s ease;
+            user-select: none;
+        }
+    </style>
+    <link href="../style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <span class="navbar-brand">Caldav PC3R</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="calendrier.html">Calendrier</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page"
+                            href="pomodoro.html">Pomodoro</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profil.html">Profil</a>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="liens.html">Liens
+                            utiles</a></li>
+                    <li class="nav-item"><a class="nav-link" href=javascript:void(0);
+                            onclick=deconnexion()>Deconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="progress">
+        <div id="progbar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+            aria-valuenow="0" aria-valuemin="0" style="width: 0%"></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h3> Principe</h3>
+                <small class=" list-group-item">
+                    <p><strong>Vous choisissez une&nbsp;<em>seule</em>&nbsp;t&acirc;che.</strong>&nbsp;De
+                        pr&eacute;f&eacute;rence, quelque chose qui m&eacute;rite une attention compl&egrave;te.</p>
+                    <p><strong>Vous r&eacute;glez un minuteur pendant 25 minutes (<em>pomodoro</em>).</strong>&nbsp;Vous
+                        vous engagez &agrave; passer ce temps sur le travail &agrave; faire.</p>
+                    <p><strong>Faites le job.</strong>&nbsp;Ne soyez pas un esclave de vos interruptions. Lorsque vous
+                        pensez &agrave; quelque chose qui est susceptible de vous arr&ecirc;ter, notez-le sur une
+                        feuille de papier et poursuivez votre pomodoro. Sauf si il y a une urgence : toilettes, maison
+                        qui br&ucirc;le ou invasion de sauterelles.</p>
+                    <p><strong>Une fois que le minuteur sonne, prenez une pause de 5 minutes pour vous
+                            d&eacute;tendre.&nbsp;</strong>&Eacute;tirez-vous, buvez un verre d&rsquo;eau,
+                        m&eacute;ditez, faites tout ce qui n&rsquo;est li&eacute; au travail. Le signal sonore aide
+                        votre esprit &agrave; int&eacute;rioriser le passage d&rsquo;un &eacute;tat de travail
+                        cibl&eacute; &agrave; la relaxation et inversement.</p>
+                    <p><strong>Apr&egrave;s avoir fini 4&nbsp;<em>pomodori</em>, prenez une pause plus longue de 20
+                            &agrave; 30 minutes.</strong>&nbsp;Cela permet &agrave; votre cerveau de se reposer pour
+                        faciliter l&rsquo;assimilation de nouvelles informations et &eacute;viter la fatigue
+                        mentale.<strong>&nbsp;</strong></p>
+                    <footer class="blockquote-footer"><a
+                            href="https://medium.com/essentiels/la-technique-du-pomodoro-comment-mieux-g%C3%A9rer-son-temps-gr%C3%A2ce-%C3%A0-une-tomate-d2df411235b8#:~:text=Si%20c'est%20ce%20qui,temps%20d%C3%A9termin%C3%A9%20et%20sans%20interruption."
+                            target="_blank">
+                            source
+
+                        </a></footer>
+                </small>
+
+
+            </div>
+            <div class="col-sm">
+                <main class="app">
+
+                    <div class="timer">
+                        <div class="button-group mode-buttons" id="js-mode-buttons">
+                            <button data-mode="pomodoro" class="button active mode-button"
+                                id="js-pomodoro">Pomodoro</button>
+                            <button data-mode="shortBreak" class="button mode-button" id="js-short-break">Short
+                                break</button>
+                            <button data-mode="longBreak" class="button mode-button" id="js-long-break">Long
+                                break</button>
+                        </div>
+                        <div class="display-1" id="js-clock">
+                            <span id="js-minutes">25</span> <span class="separator">:</span> <span
+                                id="js-seconds">00</span>
+                        </div>
+
+                        <div>
+                            <select name="matiere" id="matiere-select">
+
+                            </select>
+
+                        </div>
+                        <button class="btn btn-primary btn-lg active" data-action="start" id="js-btn">
+                            Start</button>
+                    </div>
+                </main>
+            </div>
+            <div class="col-sm">
+                <h3> Historique</h3>
+                <div id="historique"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        creerMatiere();
+        recuperation();
+        const timer = {
+            pomodoro: 25,
+            shortBreak: 5,
+            longBreak: 15,
+            longBreakInterval: 4,
+            sessions: 0,
+        };
+
+        let interval;
+
+
+        const mainButton = document.getElementById('js-btn');
+        mainButton.addEventListener('click', () => {
+            const {
+                action
+            } = mainButton.dataset;
+            if (action === 'start') {
+
+                startTimer();
+            } else {
+                stopTimer();
+            }
+        });
+
+        const modeButtons = document.querySelector('#js-mode-buttons');
+        modeButtons.addEventListener('click', handleMode);
+
+        function getRemainingTime(endTime) {
+            const currentTime = Date.parse(new Date());
+            const difference = endTime - currentTime;
+
+            const total = Number.parseInt(difference / 1000, 10);
+            const minutes = Number.parseInt((total / 60) % 60, 10);
+            const seconds = Number.parseInt(total % 60, 10);
+
+            return {
+                total,
+                minutes,
+                seconds,
+            };
+        }
+
+        function startTimer() {
+            let {
+                total
+            } = timer.remainingTime;
+            const endTime = Date.parse(new Date()) + total * 1000;
+
+            if (timer.mode === 'pomodoro') {
+                timer.sessions++;
+                if (timer.sessions == 1) creation();
+            }
+
+            mainButton.dataset.action = 'stop';
+            mainButton.textContent = 'stop';
+            mainButton.classList.add('active');
+
+            interval = setInterval(function () {
+                timer.remainingTime = getRemainingTime(endTime);
+                updateClock();
+
+                total = timer.remainingTime.total;
+                if (total <= 0) {
+                    clearInterval(interval);
+
+                    switch (timer.mode) {
+                        case 'pomodoro':
+                            if (timer.sessions % timer.longBreakInterval === 0) {
+                                switchMode('longBreak');
+                            } else {
+                                switchMode('shortBreak');
+                            }
+                            break;
+                        default:
+                            creation();
+                            switchMode('pomodoro');
+                    }
+                    startTimer();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(interval);
+            mainButton.dataset.action = 'start';
+            mainButton.textContent = 'start';
+            mainButton.classList.remove('active');
+        }
+
+        function updateClock() {
+            const {
+                remainingTime
+            } = timer;
+            const minutes = `${remainingTime.minutes}`.padStart(2, '0');
+            const seconds = `${remainingTime.seconds}`.padStart(2, '0');
+
+            const min = document.getElementById('js-minutes');
+            const sec = document.getElementById('js-seconds');
+            min.textContent = minutes;
+            sec.textContent = seconds;
+
+            const text =
+                timer.mode === 'pomodoro' ? 'Concentration Intense!' : 'Prends une pause!';
+            document.title = `${minutes}:${seconds} — ${text}`;
+
+
+            const prog = document.getElementById('progbar');
+            prog.setAttribute("aria-valuenow", timer[timer.mode] * 60 - timer.remainingTime.total);
+
+            var x = (timer[timer.mode] * 60 - timer.remainingTime.total);
+            var y = x * 100 / (timer[timer.mode] * 60);
+            prog.style.width = (y + "%");
+        }
+
+        function switchMode(mode) {
+            timer.mode = mode;
+            timer.remainingTime = {
+                total: timer[mode] * 60,
+                minutes: timer[mode],
+                seconds: 0,
+            };
+
+            document
+                .querySelectorAll('button[data-mode]')
+                .forEach(e => e.classList.remove('active'));
+            document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+            document.body.style.backgroundColor = `var(--${mode})`;
+
+            document
+                .getElementById('progbar')
+                .setAttribute('aria-valuemax', timer.remainingTime.total);
+
+            const prog = document.getElementById('progbar');
+            updateClock();
+        }
+
+        function handleMode(event) {
+            const {
+                mode
+            } = event.target.dataset;
+
+            if (!mode) return;
+
+            switchMode(mode);
+            stopTimer();
+        }
+
+
+        switchMode('pomodoro');
+
+
+        function creation() {
+
+            var seance = timer.pomodoro;
+
+
+            if (true) {
+                let url = '../ServletPomodoro?txtLogin=' + sessionStorage.login + '&txtDuree=' + seance +
+                    '&txtIDcours=' + document.getElementById("matiere-select").value;;
+                let headers = new Headers();
+                headers.set('Accept', 'application/json');
+
+                fetch(url, {
+                        method: "post",
+                        headers,
+                        mode: "same-origin"
+                    })
+                    .then(function (response) {
+                        response.json()
+                            .then(function (rjson) {
+
+                                if (rjson.resultat == "ok") {
+                                    console.log("pomodoro ajouté");
+
+                                } else {
+                                    console.log("pomodoro echoué");
+                                }
+                            }).catch(function (error) {
+                                console.log("Authentification Parsing: " + error.message)
+                            });
+                    })
+                    .catch(function (error) {
+                        console.log("Authentification Fetching: " + error.message);
+                    })
+            } else {
+                console.log("pomodoro echoué");
+            }
+
+        }
+
+        function recuperation() {
+
+            let url = '../ServletPomodoro?txtLogin=' + sessionStorage.login;
+            let headers = new Headers();
+            headers.set('Accept', 'application/json');
+
+            fetch(url, {
+                    method: "get",
+                    headers,
+                    mode: "same-origin"
+                })
+                .then(function (response) {
+                    response.json().then(function (rjson) {
+                        afficherHistorique(rjson)
+                    }).catch(function (error) {
+                        console.log("Authentification Parsing: " + error.message)
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Authentification Fetching: " + error.message);
+                })
+        }
+
+        function afficherHistorique(data) {
+
+            var t = document.querySelector("#historique");
+            var div1 = document.createElement("div");
+            data.forEach(element => {
+                var t = document.querySelector("#historique");
+                var div1 = document.createElement("li");
+                div1.setAttribute("class", "list-group-item list-group-item-action");
+                t.appendChild(div1);
+                var h5 = document.createElement("h6");
+                h5.setAttribute("class", "mb-1");
+                h5.innerText = element.idCours;
+                div1.appendChild(h5);
+
+                var date = document.createElement("div");
+                date.innerText = "Date: " + element.date;
+                div1.appendChild(date);
+
+                var duree = document.createElement("div");
+                duree.innerText = "Duree :" + element.duree + " mins";
+                div1.appendChild(duree);
+
+            });
+        }
+
+
+        function creerMatiere() {
+            var select = document.querySelector("#matiere-select");
+            var matieres = sessionStorage.matieres.split(',');;
+            matieres.forEach(element => {
+                var option = document.createElement("option");
+                option.setAttribute("value", element);
+                option.innerText = element;
+                select.appendChild(option);
+            })
+        }
+
+        function deconnexion() {
+            sessionStorage.clear();
+            document.location.href = "../";
+        }
+    </script>
+</body>
+
+</html>

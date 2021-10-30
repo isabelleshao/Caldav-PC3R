@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name>PC3Rprojet</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+    <context-param>
+    <param-name>JDBC_DRIVER</param-name>
+    <param-value>org.mariadb.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+    <param-name>JDBC_URL</param-name>
+    <param-value>jdbc:mariadb://localhost:3306/Caldav</param-value>
+  </context-param>
+  <context-param>
+    <param-name>JDBC_LOGIN</param-name>
+    <param-value>user1</param-value>
+  </context-param>
+  <context-param>
+    <param-name>JDBC_PASSWORD</param-name>
+    <param-value>password1</param-value>
+  </context-param>
+</web-app>

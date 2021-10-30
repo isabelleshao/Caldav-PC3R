@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>PC3R Caldav</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="px-4 py-5 my-5 text-center">
+		<img class="d-block mx-auto mb-4 rounded"
+			src="https://pbs.twimg.com/profile_images/1316649080592961536/UJIEFgM6.png" alt="" width="72" height="72">
+		<h1 class="display-5 fw-bold">PC3R Caldav</h1>
+		<div class="col-lg-6 mx-auto">
+			<p class="lead mb-4">PC3RCaldav est un site permettant aux
+				étudiants du master Informatique de Sorbonne Université de retrouver
+				leur emploi du temps et d'organiser des pomodoros.</p>
+			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+
+
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary  btn-lg px-4 me-sm-3" data-toggle="modal"
+					data-target="#connexion">Connexion</button>
+				<button type="button" class="btn btn-outline-secondary btn-lg px-4" data-toggle="modal"
+					data-target="#inscription">
+					Inscription</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="connexion" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form id="log" method="post" action="">
+									<div class="form-group">
+										<input class="form-control" type="text" name="txtLogin" id="txtLogin" autofocus
+											placeholder="Login">
+														
+									</div>
+									<div class="form-group">
+										<input class="form-control" type="password" placeholder="Mot de passe"
+											id="txtPassword" name="txtPassword">
+													<div id="error" class="invalid-feedback">
+						Merci de vérifier votre mot de passe.
+					</div>
+									</div>
+
+									<button type="submit" value="Connect" class="btn btn-primary">Submit</button>
+								</form>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal -->
+				<div class="modal fade" id="inscription" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Inscription</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form id="sign" method="post" action="">
+									<div class="form-group">
+										<input class="form-control" type="text" name="txtLoginInscr" id="txtLoginInscr"
+											autofocus placeholder="Login">
+										<div id="error3" class="invalid-feedback">Le login existe deja.</div>
+									</div>
+									<div class="form-group">
+										<input class="form-control" type="password" placeholder="Mot de passe"
+											id="txtPasswordInscr" name="txtPasswordInscr">
+										<div id="error2" class="invalid-feedback">Les mots de passe ne
+											correspondent pas.</div>
+
+									</div>
+									<div class="form-group">
+										<input class="form-control" type="password" placeholder="Confirmer Mot de passe"
+											id="txtPasswordInscr2" name="txtPasswordInscr2">
+										<div id="error4" class="invalid-feedback">Les mots de passe ne
+											correspondent pas.</div>
+									</div>
+
+									<div class="form-group">
+										<select class="form-control" id="inputFiliere">
+											<option selected>Cursus</option>
+											<option value="M1_ANDROIDE">M1_ANDROIDE</option>
+											<option value="M2_ANDROIDE">M2_ANDROIDE</option>
+											<option value="M1_BIM">M1_BIM</option>
+											<option value="M2_BIM">M2_BIM</option>
+											<option value="M1_DAC">M1_DAC</option>
+											<option value="M2_DAC">M2_DAC</option>
+											<option value="M1_IMA">M1_IMA</option>
+											<option value="M2_IMA">M2_IMA</option>
+											<option value="M1_RES">M1_RES</option>
+											<option value="M2_RES">M2_RES</option>
+											<option value="M1_SAR">M1_SAR</option>
+											<option value="M2_SAR">M2_SAR</option>
+											<option value="M1_SESI">M1_SESI</option>
+											<option value="M2_SESI">M2_SESI</option>
+											<option value="M1_SFPN">M1_SFPN</option>
+											<option value="M2_SFPN">M2_SFPN</option>
+											<option value="M1_STL">M1_STL</option>
+											<option value="M2_STL">M2_STL</option>
+										</select>
+
+									</div>
+									<button type="submit" value="Connect" class="btn btn-primary">Submit</button>
+								</form>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+	</script>
+	<script>
+		////////LOGIN
+
+		//abonne le formulaire à son futur
+		document.getElementById("log").addEventListener("submit", function (event) {
+			event.preventDefault();
+	
+			authentification(event)
+		});
+
+
+		// futur de l'évenement formulaire
+		function authentification(event) {
+
+			let url = 'login?txtAction=login&txtLogin=' + txtLogin.value + '&txtPassword=' + txtPassword.value;
+	
+			let headers = new Headers();
+			headers.set('Accept', 'application/json');
+
+			fetch(url, {
+					method: "post",
+					headers,
+					mode: "same-origin"
+				})
+				.then(function (response) {
+		
+					response.json()
+						.then(function (rjson) {
+				
+							if (rjson.resultat == "ok") {
+								sessionStorage.setItem("login", txtLogin.value);
+								sessionStorage.setItem("password", txtPassword.value);
+								window.location.href = "./espacePerso/";
+							}
+							if (rjson.resultat == "ko") {
+								document.getElementById("error").style.display = "initial";
+								document.getElementById("txtPassword").classList.add("is-invalid");
+							}
+
+						})
+						.catch(function (error) {
+							console.log("Authentification Parsing: " + error.message)
+						});
+				})
+				.catch(function (error) {
+					console.log("Authentification Fetching: " + error.message);
+				})
+
+		}
+		//////////SIGNIN
+		//abonne le formulaire à son futur
+		document.getElementById("sign").addEventListener("submit", function (event) {
+			event.preventDefault();
+			inscription(event)
+		});
+
+
+		// futur de l'évenement formulaire
+		function inscription(event) {
+			if (txtPasswordInscr.value == txtPasswordInscr2.value) {
+				let url = 'login?txtAction=signin&txtLogin=' + txtLoginInscr.value + '&txtfiliere=' + inputFiliere.value +
+					'&txtPassword=' + txtPasswordInscr.value;
+				let headers = new Headers();
+				headers.set('Accept', 'application/json');
+
+				fetch(url, {
+						method: "post",
+						headers,
+						mode: "same-origin"
+					})
+					.then(function (response) {
+						response.json()
+							.then(function (rjson) {
+								if (rjson.resultat == "ok") {
+									var formulaire = document.getElementById("sign");
+									var msgConfirmation = document.createElement("div");
+									msgConfirmation.setAttribute("class", "alert alert-success");
+									msgConfirmation.setAttribute("role", "alert");
+									msgConfirmation.textContent =
+										"Inscription réussie, vous pouvez desormais vous connecter";
+
+
+
+									formulaire.parentNode.insertBefore(msgConfirmation, formulaire);
+									formulaire.style.display = "none";
+
+								} else {
+						
+									document.getElementById("error3").style.display = "initial";
+									document.getElementById("txtLoginInscr").classList.add("is-invalid");
+								}
+
+							}).catch(function (error) {
+								console.log("Authentification Parsing: " + error.message)
+								document.getElementById("error3").style.display = "initial";
+								document.getElementById("txtLoginInscr").classList.add("is-invalid");
+							});
+					})
+					.catch(function (error) {
+						console.log("Authentification Fetching: " + error.message);
+					})
+			} else {
+				document.getElementById("error2").style.display = "initial";
+				document.getElementById("error4").style.display = "initial";
+
+				document.getElementById("txtPassword").classList.add("is-invalid");
+				document.getElementById("txtPassword2").classList.add("is-invalid");
+			}
+
+		}
+	</script>
+
+</body>
+
+</html>

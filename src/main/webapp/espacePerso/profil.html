@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Mon profil</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+</head>
+
+<body>
+
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<span class="navbar-brand">Caldav PC3R</span>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="index.html">Accueil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="calendrier.html">Calendrier</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="pomodoro.html">Pomodoro</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="profil.html">Profil</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="liens.html">Liens utiles</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href=javascript:void(0); onclick=deconnexion()>Deconnexion</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<h1> Modifier votre profil</h1>
+		<form id="profil">
+
+			<div class="row mb-3">
+				<label for="txtLogin" class="col-sm-2 col-form-label">Login</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="txtLogin" name="txtLogin" disabled>
+				</div>
+			</div>
+
+
+			<div class="row mb-3">
+				<label for="txtPassword" class="col-sm-2 col-form-label">Password</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="txtPassword" name="txtPassword">
+					<div id="error" class="invalid-feedback">
+						Merci de vérifier votre mot de passe.
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row mb-3">
+				<label for="txtNewPassword" class="col-sm-2 col-form-label">Nouveau password</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="txtNewPassword" name="txtNewPassword"
+						placeholder="optionnel">
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<label for="inputFiliere" class="col-sm-2 col-form-label">Filière</label>
+				<div class="col-sm-10">
+					<select class="form-select" id="inputFiliere">
+						<option selected>Choose...</option>
+						<option value="M1_ANDROIDE">M1_ANDROIDE</option>
+						<option value="M2_ANDROIDE">M2_ANDROIDE</option>
+						<option value="M1_BIM">M1_BIM</option>
+						<option value="M2_BIM">M2_BIM</option>
+						<option value="M1_DAC">M1_DAC</option>
+						<option value="M2_DAC">M2_DAC</option>
+						<option value="M1_IMA">M1_IMA</option>
+						<option value="M2_IMA">M2_IMA</option>
+						<option value="M1_RES">M1_RES</option>
+						<option value="M2_RES">M2_RES</option>
+						<option value="M1_SAR">M1_SAR</option>
+						<option value="M2_SAR">M2_SAR</option>
+						<option value="M1_SESI">M1_SESI</option>
+						<option value="M2_SESI">M2_SESI</option>
+						<option value="M1_SFPN">M1_SFPN</option>
+						<option value="M2_SFPN">M2_SFPN</option>
+						<option value="M1_STL">M1_STL</option>
+						<option value="M2_STL">M2_STL</option>
+
+					</select>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Enregistrer</button>
+		</form>
+	</div>
+
+	<script>
+
+
+		var login = document.querySelector("input#txtLogin");
+		login.value = sessionStorage.login;
+		document.getElementById("inputFiliere").value = sessionStorage.cursus;
+		//abonne le formulaire à son futur
+		document.getElementById("profil").addEventListener("submit", function (event) {
+			event.preventDefault();
+			console.log("update.");
+			updateProfil(event)
+		});
+
+
+		// futur de l'évenement formulaire
+		function updateProfil(event) {
+
+			var newPass = txtNewPassword.value;
+			if (newPass === "") {
+				newPass = "null"
+			} else {
+				newPass = txtNewPassword.value
+			}
+
+			let url = '../login?txtAction=update&txtLogin=' + txtLogin.value + '&txtPassword=' + txtPassword.value +
+				'&txtNewPass=' + newPass + '&txtFiliere=' + inputFiliere.value;
+			console.log("fetch a " + url);
+			let headers = new Headers();
+			headers.set('Accept', 'application/json');
+
+			fetch(url, {
+					method: "post",
+					headers,
+					mode: "same-origin"
+				})
+				.then(function (response) {
+					console.log(response)
+					response.json()
+						.then(function (rjson) {
+							console.log("Recu:" + rjson.resultat);
+
+
+
+
+							if (rjson.resultat == "ok") {
+								document.getElementById("error").style.display = "none";
+								document.getElementById("txtPassword").classList.remove("is-invalid");
+
+								// Supprimer toutes les données de sessionStorage
+								sessionStorage.clear();
+								sessionStorage.setItem("login", txtLogin.value);
+
+								sessionStorage.setItem("cursus", inputFiliere.value);
+								
+								if (newPass === "null") {
+									sessionStorage.setItem("password", txtPassword.value);
+
+								} else {
+									sessionStorage.setItem("password", newPass);
+								}
+						
+								window.location.href = "./index.html";
+							} else {
+								document.getElementById("error").style.display = "initial";
+								document.getElementById("txtPassword").classList.add("is-invalid");
+							}
+
+						})
+						.catch(function (error) {
+							console.log("Authentification Parsing: " + error.message)
+						});
+				})
+				.catch(function (error) {
+					console.log("Authentification Fetching: " + error.message);
+				})
+
+		}
+
+
+		function deconnexion() {
+			sessionStorage.clear();
+			document.location.href = "../";
+		}
+	</script>
+</body>
+
+</html>
